@@ -1,0 +1,301 @@
+================================================================================
+                    TEMPORAL AI AGENT - SETUP TUTORIAL
+              (So Easy, Even a 6th Grader Can Follow Along!)
+================================================================================
+
+Hi there! Welcome to the Temporal AI Agent setup guide. By the end of this
+tutorial, you'll have a cool AI assistant running on your computer that can
+help find events, search flights, and create invoices!
+
+Don't worry if you're new to this - we'll go step by step together.
+
+================================================================================
+WHAT YOU'LL BUILD
+================================================================================
+
+Imagine having your own robot assistant that:
+  - Finds cool events in cities (like concerts and festivals)
+  - Searches for flights to get you there
+  - Creates invoices for your trip
+
+That's exactly what we're building today!
+
+================================================================================
+WHAT YOU NEED BEFORE STARTING
+================================================================================
+
+Make sure you have these things ready:
+
+  1. A Computer (Mac, Windows, or Linux)
+  2. Internet Connection
+  3. An OpenAI API Key (we'll show you how to get one)
+
+That's it! Let's begin!
+
+================================================================================
+STEP 1: INSTALL THE TOOLS WE NEED
+================================================================================
+
+We need to install some helper programs first. Think of these like the
+ingredients you need before cooking a recipe.
+
+----- FOR MAC USERS -----
+
+Open the "Terminal" app (search for it using Spotlight - press Cmd + Space)
+
+Copy and paste these commands ONE BY ONE:
+
+  A) Install Homebrew (a tool that helps install other tools):
+
+     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+  B) Install Node.js (helps run the website part):
+
+     brew install node
+
+  C) Install uv (helps run Python code):
+
+     curl -LsSf https://astral.sh/uv/install.sh | sh
+     source $HOME/.local/bin/env
+
+  D) Install Temporal (the brain of our AI agent):
+
+     brew install temporal
+
+----- FOR WINDOWS USERS -----
+
+  A) Install Node.js:
+     - Go to: https://nodejs.org
+     - Download the "LTS" version
+     - Run the installer and click "Next" until done
+
+  B) Install uv:
+     - Open PowerShell (search for it in Start menu)
+     - Run: irm https://astral.sh/uv/install.ps1 | iex
+
+  C) Install Temporal:
+     - Go to: https://docs.temporal.io/cli
+     - Download the Windows version
+     - Extract and add to your PATH
+
+================================================================================
+STEP 2: GET AN OPENAI API KEY
+================================================================================
+
+The AI agent needs a "key" to talk to OpenAI's smart brain (GPT-4).
+
+  1. Go to: https://platform.openai.com/signup
+  2. Create an account (or log in if you have one)
+  3. Click on "API Keys" in the left menu
+  4. Click "Create new secret key"
+  5. Copy the key that starts with "sk-..."
+
+  IMPORTANT: Save this key somewhere safe! You'll need it soon.
+
+================================================================================
+STEP 3: DOWNLOAD THE AI AGENT CODE
+================================================================================
+
+Now let's get the actual AI agent code!
+
+  A) Open Terminal (Mac) or Command Prompt (Windows)
+
+  B) Go to where you want to save the project:
+
+     cd ~/Documents
+
+  C) Download the code using Git:
+
+     git clone https://github.com/anthropics/temporal-ai-agent.git
+
+     (If you don't have Git, download it from: https://git-scm.com/downloads)
+
+  D) Go into the project folder:
+
+     cd temporal-ai-agent
+
+================================================================================
+STEP 4: SET UP YOUR SECRET KEYS
+================================================================================
+
+We need to tell the AI agent your OpenAI key.
+
+  A) Copy the example settings file:
+
+     cp .env.example .env
+
+  B) Open the .env file in any text editor (like Notepad or TextEdit)
+
+  C) Find this line:
+
+     LLM_KEY=sk-proj-...
+
+  D) Replace "sk-proj-..." with YOUR actual OpenAI key you saved earlier
+
+  E) Save the file
+
+================================================================================
+STEP 5: INSTALL ALL THE PIECES
+================================================================================
+
+Now we install all the code the AI agent needs to work.
+
+  A) Install Python stuff:
+
+     uv sync
+
+     (This might take 1-2 minutes - be patient!)
+
+  B) Install website stuff:
+
+     cd frontend
+     npm install
+     cd ..
+
+     (This might also take 1-2 minutes)
+
+================================================================================
+STEP 6: START THE AI AGENT!
+================================================================================
+
+Now for the exciting part - let's turn it on!
+
+You need to open 4 SEPARATE Terminal windows. Yes, four! Each one runs a
+different part of the system.
+
+----- TERMINAL WINDOW 1: Start the Temporal Server -----
+
+     temporal server start-dev
+
+     You should see: "Server: localhost:7233"
+
+     (Keep this window open!)
+
+----- TERMINAL WINDOW 2: Start the Worker -----
+
+     cd temporal-ai-agent
+     uv run scripts/run_worker.py
+
+     You should see some startup messages
+
+     (Keep this window open!)
+
+----- TERMINAL WINDOW 3: Start the API Server -----
+
+     cd temporal-ai-agent
+     uv run uvicorn api.main:app --reload
+
+     You should see: "Uvicorn running on http://127.0.0.1:8000"
+
+     (Keep this window open!)
+
+----- TERMINAL WINDOW 4: Start the Website -----
+
+     cd temporal-ai-agent/frontend
+     npx vite
+
+     You should see: "Local: http://localhost:5173/"
+
+     (Keep this window open!)
+
+================================================================================
+STEP 7: USE YOUR AI AGENT!
+================================================================================
+
+The moment you've been waiting for!
+
+  1. Open your web browser (Chrome, Firefox, Safari, etc.)
+
+  2. Go to: http://localhost:5173
+
+  3. You should see "Temporal AI Agent" with a chat box!
+
+  4. Try typing: "I want to find events in Sydney"
+
+  5. The AI will ask you questions and help you find events, flights,
+     and even create invoices!
+
+================================================================================
+STEP 8: SEE WHAT'S HAPPENING BEHIND THE SCENES
+================================================================================
+
+Want to see the AI agent's brain working?
+
+  1. Open another browser tab
+
+  2. Go to: http://localhost:8233
+
+  3. This is the Temporal UI - it shows every step the AI takes!
+
+  4. Click on "agent-workflow" to see all the activities
+
+================================================================================
+HOW TO STOP EVERYTHING
+================================================================================
+
+When you're done playing with the AI agent:
+
+  1. Go to each Terminal window
+  2. Press Ctrl + C (hold Control and press C)
+  3. This stops each service
+
+================================================================================
+TROUBLESHOOTING - IF SOMETHING GOES WRONG
+================================================================================
+
+Problem: "command not found"
+Solution: Make sure you installed the tools in Step 1
+
+Problem: "401 Unauthorized" error
+Solution: Check your OpenAI API key in the .env file
+
+Problem: Website doesn't load
+Solution: Make sure all 4 Terminal windows are running
+
+Problem: "Port already in use"
+Solution: Close other programs or restart your computer
+
+================================================================================
+QUICK REFERENCE - COMMANDS TO START EVERYTHING
+================================================================================
+
+After initial setup, here's how to start the AI agent next time:
+
+  Terminal 1:  temporal server start-dev
+  Terminal 2:  cd temporal-ai-agent && uv run scripts/run_worker.py
+  Terminal 3:  cd temporal-ai-agent && uv run uvicorn api.main:app --reload
+  Terminal 4:  cd temporal-ai-agent/frontend && npx vite
+
+  Then open: http://localhost:5173
+
+================================================================================
+WHAT DID WE BUILD?
+================================================================================
+
+Congratulations! You just set up:
+
+  - A Temporal Server (keeps track of everything)
+  - A Worker (does the actual work)
+  - An API Server (connects the website to the AI)
+  - A Frontend Website (where you chat with the AI)
+
+See the file "architecture-diagram.txt" to see how all these pieces
+connect together!
+
+================================================================================
+NEXT STEPS - KEEP LEARNING!
+================================================================================
+
+Now that you have it running, try:
+
+  1. Ask the AI to find events in different cities
+  2. Search for flights to those events
+  3. Create invoices for your trips
+  4. Watch the Temporal UI to see how workflows execute
+
+Have fun with your new AI assistant!
+
+================================================================================
+                         END OF TUTORIAL
+           Questions? Check out: https://temporal.io/docs
+================================================================================
